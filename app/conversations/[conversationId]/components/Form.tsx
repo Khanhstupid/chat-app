@@ -11,29 +11,29 @@ import { Result } from "postcss";
 
 
 const Form = () => {
-    const {conversationId} = useConversation();
+    const { conversationId } = useConversation();
     const {
         register,
         handleSubmit,
         setValue,
-        formState:{
+        formState: {
             errors
         }
     } = useForm<FieldValues>({
-        defaultValues:{
-            message:''
+        defaultValues: {
+            message: ''
         }
     });
 
-    const onSubmit : SubmitHandler<FieldValues> = (data) =>{
-        setValue('messages','',{shouldValidate:true});
-        axios.post('/api/messages',{
-            ...data,conversationId
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        setValue('message', '', { shouldValidate: true });
+        axios.post('/api/messages', {
+            ...data, conversationId
         })
     }
 
-    const handleUpLoad = (result:any)=>{
-        axios.post('/api/messages',{
+    const handleUpLoad = (result: any) => {
+        axios.post('/api/messages', {
             image: result?.info?.secure_url,
             conversationId
         })
@@ -51,23 +51,23 @@ const Form = () => {
             w-full
         ">
             <CldUploadButton options={{ maxFiles: 2 }} onUpload={handleUpLoad} uploadPreset="ei7qutah">
-                <HiPhoto size={30} className = "text-pink-500"/>
+                <HiPhoto size={30} className="text-pink-500" />
             </CldUploadButton>
             <form onSubmit={handleSubmit(onSubmit)}
-                    className="flex items-center gap-2 lg:gap-4 w-full">
-                        <MessageInput 
-                            id = 'message'
-                            register = {register}
-                            errors = {errors}
-                            required
-                            placeholder = "Write a message"
-                            
+                className="flex items-center gap-2 lg:gap-4 w-full">
+                <MessageInput
+                    id='message'
+                    register={register}
+                    errors={errors}
+                    required
+                    placeholder="Write a message"
 
-                        />
-                        <button type="submit" className="rounded-full p-2 bg-pink-500 cursor-pointer hover:bg-pink-600 transition">
-                            <HiPaperAirplane size = {18} className="text-white"/> 
-                        </button>
-                    </form>
+
+                />
+                <button type="submit" className="rounded-full p-2 bg-pink-500 cursor-pointer hover:bg-pink-600 transition">
+                    <HiPaperAirplane size={18} className="text-white" />
+                </button>
+            </form>
         </div>
     );
 };
